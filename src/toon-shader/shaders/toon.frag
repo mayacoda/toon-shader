@@ -6,14 +6,13 @@ struct DirectionalLight {
 
 uniform DirectionalLight directionalLights[NUM_DIR_LIGHTS];
 uniform vec3 ambientLightColor;
+uniform vec3 uColor;
 uniform float uGlossiness;
 
 varying vec3 vNormal;
 varying vec3 vViewDir;
 
 void main() {
-    vec3 baseColor = vec3(.3945, 0.8047, .8816);
-
     // directional light
     float NdotL = dot(vNormal, directionalLights[0].direction);
     float lightIntensity = smoothstep(0.0, 0.01, NdotL);
@@ -38,10 +37,9 @@ void main() {
 
     vec3 rim = rimIntensity * directionalLights[0].color;
 
+    gl_FragColor = vec4(uColor * (ambientLightColor + light + specular + rim), 1.0);
 
-    gl_FragColor = vec4(baseColor * (ambientLightColor + light + specular + rim), 1.0);
 
-
-//    gl_FragColor =  vec4(ambientLightColor, 1.0);
-//    gl_FragColor = vec4(vViewDir, 1.0);
+    //    gl_FragColor =  vec4(ambientLightColor, 1.0);
+    //    gl_FragColor = vec4(vViewDir, 1.0);
 }

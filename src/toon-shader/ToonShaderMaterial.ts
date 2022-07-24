@@ -3,7 +3,7 @@ import toonVertexShader from './shaders/toon.vert'
 import toonFragmentShader from './shaders/toon.frag'
 
 export class ToonShaderMaterial extends THREE.ShaderMaterial {
-  constructor() {
+  constructor({ color }: { color: string }) {
     super({
       lights: true,
       uniforms: {
@@ -11,10 +11,13 @@ export class ToonShaderMaterial extends THREE.ShaderMaterial {
         uGlossiness: {
           value: 20,
         },
+        uColor: {
+          value: new THREE.Color(color),
+        },
       },
     })
 
-    console.log(THREE.UniformsLib.lights)
+    // console.log(THREE.UniformsLib.lights)
 
     this.vertexShader = toonVertexShader
     this.fragmentShader = toonFragmentShader
