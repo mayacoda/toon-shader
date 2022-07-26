@@ -37,8 +37,8 @@ export class MainScene implements Experience {
     const directionalLight = new THREE.DirectionalLight('#f8f1e6', 0.5)
     directionalLight.position.set(1, 1, 1)
     directionalLight.castShadow = true
-    directionalLight.shadow.mapSize.width = 1024
-    directionalLight.shadow.mapSize.height = 1024
+    directionalLight.shadow.mapSize.width = 4096
+    directionalLight.shadow.mapSize.height = 4096
     this.engine.scene.add(directionalLight)
   }
 

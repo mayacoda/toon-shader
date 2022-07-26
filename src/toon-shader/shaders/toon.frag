@@ -1,11 +1,9 @@
-struct DirectionalLight {
-    vec3 direction;
-    vec3 color;
-    float distance;
-};
+#include <common>
+#include <packing>
+#include <lights_pars_begin>
+#include <shadowmap_pars_fragment>
+#include <shadowmask_pars_fragment>
 
-uniform DirectionalLight directionalLights[NUM_DIR_LIGHTS];
-uniform vec3 ambientLightColor;
 uniform vec3 uColor;
 uniform float uGlossiness;
 
@@ -13,9 +11,20 @@ varying vec3 vNormal;
 varying vec3 vViewDir;
 
 void main() {
+    // shadow map
+    DirectionalLightShadow directionalLight = directionalLightShadows[0];
+
+    float shadow = getShadow(
+        directionalShadowMap[0],
+        directionalLight.shadowMapSize,
+        directionalLight.shadowBias,
+        directionalLight.shadowRadius,
+        vDirectionalShadowCoord[0]
+    );
+
     // directional light
     float NdotL = dot(vNormal, directionalLights[0].direction);
-    float lightIntensity = smoothstep(0.0, 0.01, NdotL);
+    float lightIntensity = smoothstep(0.0, 0.01, NdotL * shadow);
     vec3 light = directionalLights[0].color * lightIntensity;
 
     // specular light
@@ -38,8 +47,4 @@ void main() {
     vec3 rim = rimIntensity * directionalLights[0].color;
 
     gl_FragColor = vec4(uColor * (ambientLightColor + light + specular + rim), 1.0);
-
-
-    //    gl_FragColor =  vec4(ambientLightColor, 1.0);
-    //    gl_FragColor = vec4(vViewDir, 1.0);
 }
