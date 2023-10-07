@@ -1,6 +1,6 @@
+import * as THREE from 'three'
 import { WebGLRenderer } from 'three'
 import { Engine } from './Engine'
-import * as THREE from 'three'
 import { GameEntity } from './GameEntity'
 
 export class RenderEngine implements GameEntity {
@@ -12,7 +12,6 @@ export class RenderEngine implements GameEntity {
       antialias: true,
     })
 
-    this.renderer.physicallyCorrectLights = true
     this.renderer.outputEncoding = THREE.sRGBEncoding
     this.renderer.toneMapping = THREE.CineonToneMapping
     this.renderer.toneMappingExposure = 1.75
